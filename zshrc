@@ -69,17 +69,40 @@ antigen apply
 # ZSH {{{1
 # export EDITOR='vim'
 
-#@FIXME: Clean path management for nix {{{2
-# User configuration
-export PATH="/home/gseren/.nix-profile/bin:/home/gseren/.nix-profile/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
-
-# Completion {{{2
+# ZSH Completion {{{2
 autoload -U compinit
 compinit
-# Add bash completion support
-autoload -U bashcompinit
-bashcompinit
 
+# config {{{3
+# caching
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# Fuzzy (1-char tolerant)
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# Quick change directories. "cd ..." => "cd ../.."; "cd ../..." => "cd ../../.."
+rationalise-dot() {
+    if [[ $LBUFFER = *.. ]]; then
+        LBUFFER+=/..
+    else
+        LBUFFER+=.
+    fi
+}
+zle -N rationalise-dot
+bindkey . rationalise-dot
+# Ignore the case
+setopt no_case_glob
+
+# Enable bash completion support {{{2
+# You should load bashcompinit with -Uz, see:
+# https://github.com/ndbroadbent/scm_breeze/issues/21
+autoload -Uz bashcompinit
+bashcompinit -i
+
+# Command specific comp {{{2
 # git-extras bash completion
 [ -f /etc/bash_completion.d/git-extra ] && source /etc/bash_completion.d/git-extras
 
@@ -96,6 +119,8 @@ setopt HIST_IGNORE_DUPS         # ignore duplicate commands
 setopt HIST_REDUCE_BLANKS       # leave blanks out
 setopt HIST_SAVE_NO_DUPS        # don't save duplicates
 setopt INC_APPEND_HISTORY       # write after each command
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
 setopt SHARE_HISTORY            # share history between sessions
 
 # zsh super globs {{{2
