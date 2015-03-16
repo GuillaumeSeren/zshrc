@@ -4,7 +4,10 @@
 # file    ~/.zshrc
 # Licence GPLv3
 #
-# Global Zsh configuration file
+# Zsh configuration file
+# antigen is the package manager.
+# oh-my-zsh is a nice toolbox to look for ideas.
+# I try to keep configuration simple and efficient.
 # ---------------------------------------------
 
 # ANTIGEN {{{1
@@ -19,7 +22,9 @@ if [ ! -f ~/.zsh/antigen/antigen.zsh ]; then
 fi
 
 # Load antigen {{{2
-source /home/gseren/.zsh/antigen/antigen.zsh
+#@FIXME: Maybe use some globals to store file names
+[ -f ~/.zsh/antigen/antigen.zsh ] && source ~/.zsh/antigen/antigen.zsh
+
 # Load the oh-my-zsh's library {{{2
 antigen use oh-my-zsh
 
@@ -53,12 +58,15 @@ antigen theme agnoster
 antigen apply
 
 # Custom Aliases {{{1
-source ~/.bashrc.alias
+[ -f ~/.bashrc.alias ] && source ~/.bashrc.alias
+
 # Custom functions {{{1
-source ~/.bashrc.function
+[ -f ~/.bashrc.function ] && source ~/.bashrc.function
+
 # Dir_Colors {{{1
 [ -f ~/.dir_colors ] && eval "$(dircolors ~/.dir_colors)"
-# ZSH history {{{1
+
+# ZSH {{{1
 # export EDITOR='vim'
 
 #@FIXME: Clean path management for nix {{{2
@@ -71,7 +79,9 @@ compinit
 # Add bash completion support
 autoload -U bashcompinit
 bashcompinit
-source /etc/bash_completion.d/git-extras
+
+# git-extras bash completion
+[ -f /etc/bash_completion.d/git-extra ] && source /etc/bash_completion.d/git-extras
 
 # zsh history {{{2
 HISTFILE=$HOME/.zsh_history
