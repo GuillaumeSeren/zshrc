@@ -129,6 +129,11 @@ setopt NUMERIC_GLOB_SORT        # numeric glob sort
 setopt extendedglob
 unsetopt caseglob
 
+# NixOs {{{1
+#@FIXME: Clean path management for nix
+# User configuration
+export PATH="/home/gseren/.nix-profile/bin:/home/gseren/.nix-profile/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+
 # FZF {{{1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
