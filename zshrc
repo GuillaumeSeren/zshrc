@@ -77,7 +77,17 @@ stty -ixon
 autoload -U compinit
 compinit
 
-# config {{{3
+# Enable bash completion support {{{2
+# You should load bashcompinit with -Uz, see:
+# https://github.com/ndbroadbent/scm_breeze/issues/21
+autoload -Uz bashcompinit
+bashcompinit -i
+
+# Command specific comp {{{2
+# git-extras bash completion
+[ -f /etc/bash_completion.d/git-extra ] && source /etc/bash_completion.d/git-extras
+
+# config {{{2
 # caching
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
@@ -86,6 +96,19 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# Custom auto-completion
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+zstyle ':completion:*:warnings' format '%BDésolé, pas de résultats pour : %d%b'
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+
+# Command specific tweaks 
+zstyle ':completion:*:rm:*' ignore-line yes
+zstyle ':completion:*:mv:*' ignore-line yes
+zstyle ':completion:*:cp:*' ignore-line yes
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+                               /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 # Quick change directories. "cd ..." => "cd ../.."; "cd ../..." => "cd ../../.."
 rationalise-dot() {
@@ -100,15 +123,7 @@ bindkey . rationalise-dot
 # Ignore the case
 setopt no_case_glob
 
-# Enable bash completion support {{{2
-# You should load bashcompinit with -Uz, see:
-# https://github.com/ndbroadbent/scm_breeze/issues/21
-autoload -Uz bashcompinit
-bashcompinit -i
 
-# Command specific comp {{{2
-# git-extras bash completion
-[ -f /etc/bash_completion.d/git-extra ] && source /etc/bash_completion.d/git-extras
 
 # zsh history {{{2
 HISTFILE=$HOME/.zsh_history
