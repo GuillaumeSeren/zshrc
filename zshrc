@@ -57,6 +57,10 @@ antigen theme agnoster
 # Tell antigen that you're done.
 antigen apply
 
+# Bindings {{{1
+# Prevent ^S and ^Q doing XON/XOFF (mostly for Vim) {{{2
+stty -ixon
+
 # Custom Aliases {{{1
 [ -f ~/.bashrc.alias ] && source ~/.bashrc.alias
 
