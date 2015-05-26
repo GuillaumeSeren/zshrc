@@ -18,7 +18,7 @@ if [ ! -f ~/.zsh/antigen/antigen.zsh ]; then
     mkdir -p ~/.zsh/antigen/
     echo "Downloading antigen..."
     curl -L https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh \
-        > ~/.zsh/antigen.zsh
+        > ~/.zsh/antigen/antigen.zsh
 fi
 
 # Load antigen {{{2
@@ -74,18 +74,17 @@ stty -ixon
 # export EDITOR='vim'
 
 # ZSH Completion {{{2
-autoload -U compinit
-compinit
-
-# Enable bash completion support {{{2
+# autoload compinit && compinit
 # You should load bashcompinit with -Uz, see:
 # https://github.com/ndbroadbent/scm_breeze/issues/21
-autoload -Uz bashcompinit
-bashcompinit -i
+# autoload -Uz bashcompinit
+# bashcompinit -i
+autoload -U +X compinit && compinit
+# autoload -U +X bashcompinit && bashcompinit
 
-# Command specific comp {{{2
-# git-extras bash completion
-[ -f /etc/bash_completion.d/git-extra ] && source /etc/bash_completion.d/git-extras
+# BASH completion
+# zstyle ':completion:*:*:git:*' script /etc/bash_completion.d/git-prompt
+# zstyle ':completion:*:*:git:*' script /etc/bash_completion.d/git-extras
 
 # config {{{2
 # caching
@@ -122,7 +121,6 @@ zle -N rationalise-dot
 bindkey . rationalise-dot
 # Ignore the case
 setopt no_case_glob
-
 
 
 # zsh history {{{2
