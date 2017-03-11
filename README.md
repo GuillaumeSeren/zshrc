@@ -12,6 +12,7 @@ I spend most of my time in a shell, so I need to keep it clean and efficient.
 - Use powerline so you *need* a patched font.
 - Use Antigen to keep everything in a module as far as I can.
 - Completion of the command is fuzzy by fzf.
+- I use solarized-light color profile.
 
 ## INSTALL
 ```
