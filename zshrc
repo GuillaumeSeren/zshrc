@@ -30,28 +30,30 @@ antigen use oh-my-zsh
 
 # Antigen bundle {{{2
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
+# Syntax highlighting bundle.
+# antigen bundle tarruda/zsh-autosuggestions
+# antigen bundle tarruda/zsh-autosuggestions --branch=v0.1.x zsh-autosuggestions.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions src
-antigen bundle command-not-found
-antigen bundle debian
-antigen bundle git
-antigen bundle git-extras
-antigen bundle sudo
-antigen bundle heroku
-antigen bundle pip
-antigen bundle lein
-antigen bundle nmap
-antigen bundle npm
-antigen bundle bower
-antigen bundle rsync
-
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
+# antigen bundle command-not-found
+# antigen bundle debian
+# antigen bundle git
+# antigen bundle git-extras
+# antigen bundle sudo
+# antigen bundle heroku
+# antigen bundle pip
+# antigen bundle lein
+# antigen bundle nmap
+# antigen bundle npm
+# antigen bundle bower
+# antigen bundle rsync
+antigen bundle soimort/translate-shell
 
 # Antigen Theme {{{2
 # Load the theme.
 # antigen theme robbyrussell
-antigen theme agnoster
+# antigen theme agnoster
+antigen bundle Lokaltog/powerline powerline/bindings/zsh
 
 # Antigen Apply {{{2
 # Tell antigen that you're done.
@@ -62,9 +64,11 @@ antigen apply
 stty -ixon
 
 # Custom Aliases {{{1
+# see https://github.com/GuillaumeSeren/bashrc
 [ -f ~/.bashrc.alias ] && source ~/.bashrc.alias
 
 # Custom functions {{{1
+# https://github.com/GuillaumeSeren/bashrc
 [ -f ~/.bashrc.function ] && source ~/.bashrc.function
 
 # Dir_Colors {{{1
@@ -72,6 +76,38 @@ stty -ixon
 
 # ZSH {{{1
 # export EDITOR='vim'
+# zsh auto-suggestion {{{2
+# Right arrow to the entire suggestion
+# AUTOSUGGESTION_ACCEPT_RIGHT_ARROW=1
+# AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=10'
+# Enable autosuggestions automatically.
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+# zle -N zle-line-init
+
+# Enable autosuggestions
+# zle-line-init() {
+#     autosuggest_start
+# }
+
+# zle -N zle-line-init
+# ZSH_AUTOSUGGEST_HIGHLIGHT_COLOR='fg=10'
+
+# # Accept suggestions without leaving insert mode
+# bindkey '^f' vi-forward-word
+# # or
+# bindkey '^f' vi-forward-blank-word
+#
+# if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
+#   expand-or-complete-with-dots() {
+#     echo -n "\e[31m......\e[0m"
+#     zle expand-or-complete
+#     zle redisplay
+#   }
+#   zle -N expand-or-complete-with-dots
+#   bindkey "^I" expand-or-complete-with-dots
+# fi
 
 # ZSH Completion {{{2
 # autoload compinit && compinit
@@ -97,17 +133,17 @@ zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
 
 # Custom auto-completion
-zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
-zstyle ':completion:*:warnings' format '%BDésolé, pas de résultats pour : %d%b'
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+# zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+# zstyle ':completion:*:warnings' format '%BDésolé, pas de résultats pour : %d%b'
+# zstyle ':completion:*' menu select=2
+# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 
 # Command specific tweaks 
-zstyle ':completion:*:rm:*' ignore-line yes
-zstyle ':completion:*:mv:*' ignore-line yes
-zstyle ':completion:*:cp:*' ignore-line yes
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                               /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+# zstyle ':completion:*:rm:*' ignore-line yes
+# zstyle ':completion:*:mv:*' ignore-line yes
+# zstyle ':completion:*:cp:*' ignore-line yes
+# zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+#                                /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 # Quick change directories. "cd ..." => "cd ../.."; "cd ../..." => "cd ../../.."
 rationalise-dot() {
@@ -149,11 +185,26 @@ unsetopt caseglob
 # NixOs {{{1
 #@FIXME: Clean path management for nix
 # User configuration
-export PATH="/home/gseren/.nix-profile/bin:/home/gseren/.nix-profile/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+# export PATH="/home/gseren/.nix-profile/bin:/home/gseren/.nix-profile/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/gseren/.local/bin:/home/gseren/.gem/ruby/2.0.0/bin"
+# 20160403-remove nix
+
+# EXPORT {{{1
+# PATH
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/gseren/.local/bin:/home/gseren/.gem/ruby/2.0.0/bin:/home/gseren/.gem/ruby/2.1.0/bin:/home/gseren/.gem/ruby/2.2.0/bin:/home/gseren/.gocode/bin"
+# https://forums.gentoo.org/viewtopic-p-7284042.html
+export SOLARIZED='light'
+
+# NeoMan {{{1
+source ~/.config/nvim/plugged/neoman.vim/scripts/nman.zsh
 
 # FZF {{{1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# z {{{1
+[ -f ~/src/free/github/guillaumeseren/z/z.sh ] && . ~/src/free/github/guillaumeseren/z/z.sh
+
 # AutoStart Commands {{{1
 # Let's throw a fortune to the user
-fortune -a | cowsay
+fortune | cowsay
+
+#  vim: set ft=zsh ts=2 sw=2 tw=80 foldmethod=marker et :
